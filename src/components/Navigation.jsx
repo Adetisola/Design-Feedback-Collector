@@ -17,20 +17,20 @@ export default function Navigation() {
                         <Link
                             to="/"
                             className={`px-6 py-2 rounded-xl font-medium transition-all ${isActive('/')
-                                    ? 'bg-white text-purple-600 shadow-lg'
-                                    : 'text-white hover:bg-white/20'
+                                ? 'bg-white text-purple-600 shadow-lg'
+                                : 'text-white hover:bg-white/20'
                                 }`}
                         >
-                            Submit Feedback
+                            Browse Designs
                         </Link>
                         <Link
-                            to="/view"
-                            className={`px-6 py-2 rounded-xl font-medium transition-all ${isActive('/view')
-                                    ? 'bg-white text-purple-600 shadow-lg'
-                                    : 'text-white hover:bg-white/20'
+                            to="/post-design"
+                            className={`px-6 py-2 rounded-xl font-medium transition-all ${isActive('/post-design')
+                                ? 'bg-white text-purple-600 shadow-lg'
+                                : 'text-white hover:bg-white/20'
                                 }`}
                         >
-                            View Feedback
+                            Post Design
                         </Link>
                     </div>
                 </div>

@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
-import SubmitFeedback from './pages/SubmitFeedback';
-import ViewFeedback from './pages/ViewFeedback';
+import PostDesign from './pages/PostDesign';
+import DesignList from './pages/DesignList';
+import DesignDetail from './pages/DesignDetail';
 
 function App() {
   return (
@@ -9,8 +10,9 @@ function App() {
       <div className="min-h-screen pt-24">
         <Navigation />
         <Routes>
-          <Route path="/" element={<SubmitFeedback />} />
-          <Route path="/view" element={<ViewFeedback />} />
+          <Route path="/" element={<DesignList />} />
+          <Route path="/post-design" element={<PostDesign />} />
+          <Route path="/designs/:id" element={<DesignDetail />} />
         </Routes>
       </div>
     </Router>

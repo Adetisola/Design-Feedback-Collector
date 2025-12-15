@@ -51,11 +51,12 @@ export default function ViewFeedback() {
         }
 
         if (sortOrder === 'oldest') {
-            return feedbackCopy.sort((a, b) => a.id - b.id); // Oldest first
+            // Sort by createdAt timestamp (ascending)
+            return feedbackCopy.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
         }
 
-        // Default: newest first (sort by id/timestamp descending)
-        return feedbackCopy.sort((a, b) => b.id - a.id);
+        // Default: newest first (sort by createdAt descending)
+        return feedbackCopy.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
     };
 
     return (
