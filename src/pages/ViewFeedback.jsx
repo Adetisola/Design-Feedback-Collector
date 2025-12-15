@@ -50,6 +50,10 @@ export default function ViewFeedback() {
             });
         }
 
+        if (sortOrder === 'oldest') {
+            return feedbackCopy.sort((a, b) => a.id - b.id); // Oldest first
+        }
+
         // Default: newest first (sort by id/timestamp descending)
         return feedbackCopy.sort((a, b) => b.id - a.id);
     };
@@ -78,6 +82,7 @@ export default function ViewFeedback() {
                                     className="bg-transparent text-white font-medium focus:outline-none cursor-pointer"
                                 >
                                     <option value="default" className="bg-gray-800">Newest First</option>
+                                    <option value="oldest" className="bg-gray-800">Oldest First</option>
                                     <option value="highest" className="bg-gray-800">Highest Score</option>
                                     <option value="lowest" className="bg-gray-800">Lowest Score</option>
                                 </select>
