@@ -170,7 +170,7 @@ export default function SubmitFeedback() {
                             type="submit"
                             className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-4 rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all transform hover:scale-[1.02] shadow-lg"
                         >
-                            Submit Feedback
+                            Submit
                         </button>
                     </form>
                 </div>
