@@ -50,7 +50,8 @@ export default function ViewFeedback() {
             });
         }
 
-        return feedbackCopy; // Default: original order
+        // Default: newest first (sort by id/timestamp descending)
+        return feedbackCopy.sort((a, b) => b.id - a.id);
     };
 
     return (
