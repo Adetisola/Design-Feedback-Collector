@@ -194,7 +194,7 @@ export default function DesignDetail() {
             {/* Image Overlay Modal */}
             {imageOverlayOpen && (
                 <div
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-8"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-8"
                     onClick={() => {
                         setImageOverlayOpen(false);
                         setZoom(50); // Reset to default zoom when closing
@@ -237,7 +237,7 @@ export default function DesignDetail() {
                     </div>
 
                     {/* Image info */}
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 glass px-6 py-3 rounded-full z-10">
+                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-md px-6 py-3 rounded-full z-10">
                         <p className="text-white font-medium">{design.title}</p>
                     </div>
                 </div>
