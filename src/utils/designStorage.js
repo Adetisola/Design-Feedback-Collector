@@ -6,6 +6,7 @@
  * Design {
  *   id: string (UUID),
  *   title: string,
+ *   designerName: string | null,
  *   description: string,
  *   imageUrl: string,
  *   category: string,
@@ -59,15 +60,16 @@ export function getDesignById(id) {
 
 /**
  * Add a new design (without feedback)
- * @param {Object} designData - { title, description, imageUrl, category }
+ * @param {Object} designData - { title, designerName, description, imageUrl, category }
  * @returns {Object} The newly created design object
  */
-export function addDesign({ title, description, imageUrl, category }) {
+export function addDesign({ title, designerName, description, imageUrl, category }) {
     const designs = getAllDesigns();
 
     const newDesign = {
         id: generateId(),
         title,
+        designerName: designerName?.trim() || null, // Trim whitespace, null if empty
         description,
         imageUrl,
         category,

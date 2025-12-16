@@ -7,6 +7,7 @@ export default function PostDesign() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         title: '',
+        designerName: '',
         description: '',
         imageUrl: '',
         category: ''
@@ -38,6 +39,7 @@ export default function PostDesign() {
         // Reset form
         setFormData({
             title: '',
+            designerName: '',
             description: '',
             imageUrl: '',
             category: ''
@@ -70,6 +72,22 @@ export default function PostDesign() {
                                 required
                                 className="w-full px-4 py-3 rounded-xl glass text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                                 placeholder="Enter design title"
+                            />
+                        </div>
+
+                        {/* Designer Name */}
+                        <div>
+                            <label className="block text-white text-sm font-medium mb-2">
+                                Designer Name
+                            </label>
+                            <input
+                                type="text"
+                                name="designerName"
+                                value={formData.designerName}
+                                onChange={handleInputChange}
+                                required
+                                className="w-full px-4 py-3 rounded-xl glass text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                                placeholder="e.g. Timi Ade, Studio X, Anonymous Designer"
                             />
                         </div>
 

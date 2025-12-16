@@ -112,9 +112,12 @@ export default function DesignDetail() {
                     <div className="p-8">
                         <div className="flex justify-between items-start mb-4">
                             <div className="flex-1">
-                                <h1 className="text-4xl font-bold text-white mb-4">
+                                <h1 className="text-4xl font-bold text-white mb-2">
                                     {design.title}
                                 </h1>
+                                <p className="text-lg text-gray-300 mb-4">
+                                    by {design.designerName || 'Unknown Designer'}
+                                </p>
                                 <p className="text-lg text-gray-200 mb-4">
                                     {design.description}
                                 </p>

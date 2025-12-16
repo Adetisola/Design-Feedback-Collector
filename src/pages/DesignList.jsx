@@ -28,11 +28,13 @@ export default function DesignList() {
     const getFilteredDesigns = () => {
         let filtered = [...designs];
 
-        // Apply search filter
+        // Apply search filter (title, designer name, OR category)
         if (searchQuery.trim()) {
             const query = searchQuery.toLowerCase();
             filtered = filtered.filter(design =>
                 design.title.toLowerCase().includes(query) ||
+                (design.designerName && design.designerName.toLowerCase().includes(query)) ||
+                (design.category && design.category.toLowerCase().includes(query)) ||
                 design.description.toLowerCase().includes(query)
             );
         }
@@ -95,7 +97,7 @@ export default function DesignList() {
                             </svg>
                             <input
                                 type="text"
-                                placeholder="Search designs by title or description..."
+                                placeholder="Search by title, designer, or category..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="flex-1 bg-transparent text-white placeholder-gray-300 focus:outline-none"
@@ -187,6 +189,9 @@ export default function DesignList() {
                                     <h3 className="text-xl font-bold text-white mb-2">
                                         {design.title}
                                     </h3>
+                                    <p className="text-sm text-gray-300 mb-3">
+                                        by {design.designerName || 'Unknown Designer'}
+                                    </p>
                                     <p className="text-sm text-gray-200 mb-4 line-clamp-2">
                                         {design.description}
                                     </p>
