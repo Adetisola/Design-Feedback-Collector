@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addDesign } from '../utils/designStorage';
+import { CATEGORIES } from '../utils/categories';
 
 export default function PostDesign() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         title: '',
         description: '',
-        imageUrl: ''
+        imageUrl: '',
+        category: ''
     });
     const [imagePreview, setImagePreview] = useState('');
     const [imageError, setImageError] = useState(false);
@@ -37,7 +39,8 @@ export default function PostDesign() {
         setFormData({
             title: '',
             description: '',
-            imageUrl: ''
+            imageUrl: '',
+            category: ''
         });
         setImagePreview('');
 
@@ -104,6 +107,29 @@ export default function PostDesign() {
                                 className="w-full px-4 py-3 rounded-xl glass text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                                 placeholder="https://example.com/image.jpg"
                             />
+                        </div>
+
+                        {/* Category Dropdown */}
+                        <div>
+                            <label className="block text-white text-sm font-medium mb-2">
+                                Design Category <span className="text-red-400">*</span>
+                            </label>
+                            <select
+                                name="category"
+                                value={formData.category}
+                                onChange={handleInputChange}
+                                required
+                                className="w-full px-4 py-3 rounded-xl glass text-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition cursor-pointer"
+                            >
+                                <option value="" disabled className="bg-gray-800">
+                                    Select a category
+                                </option>
+                                {CATEGORIES.map(cat => (
+                                    <option key={cat} value={cat} className="bg-gray-800">
+                                        {cat}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
 
                         {/* Image Preview */}

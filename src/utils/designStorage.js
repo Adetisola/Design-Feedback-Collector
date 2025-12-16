@@ -8,6 +8,7 @@
  *   title: string,
  *   description: string,
  *   imageUrl: string,
+ *   category: string,
  *   createdAt: ISO timestamp,
  *   feedback: Feedback[]
  * }
@@ -58,10 +59,10 @@ export function getDesignById(id) {
 
 /**
  * Add a new design (without feedback)
- * @param {Object} designData - { title, description, imageUrl }
+ * @param {Object} designData - { title, description, imageUrl, category }
  * @returns {Object} The newly created design object
  */
-export function addDesign({ title, description, imageUrl }) {
+export function addDesign({ title, description, imageUrl, category }) {
     const designs = getAllDesigns();
 
     const newDesign = {
@@ -69,6 +70,7 @@ export function addDesign({ title, description, imageUrl }) {
         title,
         description,
         imageUrl,
+        category,
         createdAt: new Date().toISOString(),
         feedback: []
     };
