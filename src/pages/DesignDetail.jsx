@@ -263,9 +263,9 @@ export default function DesignDetail() {
                         className="relative flex items-center justify-center scrollbar-hide"
                         style={{
                             width: window.innerWidth < 768 ? '90vw' : '80vw',
-                            height: window.innerWidth < 768 ? '60vh' : '80vh',
+                            height: window.innerWidth < 768 ? '40vh' : '80vh',
                             maxWidth: window.innerWidth < 768 ? '90vw' : '80vw',
-                            maxHeight: window.innerWidth < 768 ? '60vh' : '80vh',
+                            maxHeight: window.innerWidth < 768 ? '40vh' : '80vh',
                             overflow: zoom === 80 ? 'hidden' : 'auto',
                             cursor: isDragging ? 'grabbing' : (zoom === 80 ? 'default' : 'grab')
                         }}
