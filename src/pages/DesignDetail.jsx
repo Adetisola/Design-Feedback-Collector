@@ -130,6 +130,14 @@ export default function DesignDetail() {
                     <div className="p-8">
                         <div className="flex justify-between items-start mb-4">
                             <div className="flex-1">
+                                {/* Category Badge */}
+                                {design.category && (
+                                    <div className="inline-block mb-3">
+                                        <span className="glass px-4 py-1.5 rounded-full text-xs font-semibold text-white uppercase tracking-wider">
+                                            {design.category}
+                                        </span>
+                                    </div>
+                                )}
                                 <h1 className="text-4xl font-bold text-white mb-2">
                                     {design.title}
                                 </h1>
