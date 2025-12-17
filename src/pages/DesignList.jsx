@@ -7,6 +7,7 @@ export default function DesignList() {
     const [designs, setDesigns] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('All Categories');
+    const [sortOrder, setSortOrder] = useState('newest');
 
     useEffect(() => {
         // Load all designs
@@ -24,11 +25,11 @@ export default function DesignList() {
         ));
     };
 
-    // Derived state - filter designs based on search and category
-    const getFilteredDesigns = () => {
+    // Derived state - filter and sort designs
+    const getFilteredAndSortedDesigns = () => {
         let filtered = [...designs];
 
-        // Apply search filter (title, designer name, OR category)
+        // Step 1: Apply search filter (title, designer name, category, OR description)
         if (searchQuery.trim()) {
             const query = searchQuery.toLowerCase();
             filtered = filtered.filter(design =>
@@ -39,17 +40,42 @@ export default function DesignList() {
             );
         }
 
-        // Apply category filter
+        // Step 2: Apply category filter
         if (selectedCategory !== 'All Categories') {
             filtered = filtered.filter(design =>
                 design.category === selectedCategory
             );
         }
 
+        // Step 3: Apply sorting
+        switch (sortOrder) {
+            case 'oldest':
+                filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                break;
+            case 'highest':
+                filtered.sort((a, b) => {
+                    const avgA = calculateDesignAverage(a);
+                    const avgB = calculateDesignAverage(b);
+                    return avgB - avgA; // Descending
+                });
+                break;
+            case 'lowest':
+                filtered.sort((a, b) => {
+                    const avgA = calculateDesignAverage(a);
+                    const avgB = calculateDesignAverage(b);
+                    return avgA - avgB; // Ascending
+                });
+                break;
+            case 'newest':
+            default:
+                filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                break;
+        }
+
         return filtered;
     };
 
-    const filteredDesigns = getFilteredDesigns();
+    const filteredDesigns = getFilteredAndSortedDesigns();
 
     if (designs.length === 0) {
         return (
@@ -132,6 +158,28 @@ export default function DesignList() {
                             ))}
                         </select>
                     </div>
+
+                    {/* Sort Dropdown */}
+                    <div className="glass rounded-xl px-4 py-3 min-w-[200px]">
+                        <select
+                            value={sortOrder}
+                            onChange={(e) => setSortOrder(e.target.value)}
+                            className="w-full bg-transparent text-white font-medium focus:outline-none cursor-pointer"
+                        >
+                            <option value="newest" className="bg-gray-800">
+                                Newest First
+                            </option>
+                            <option value="oldest" className="bg-gray-800">
+                                Oldest First
+                            </option>
+                            <option value="highest" className="bg-gray-800">
+                                Highest Rated
+                            </option>
+                            <option value="lowest" className="bg-gray-800">
+                                Lowest Rated
+                            </option>
+                        </select>
+                    </div>
                 </div>
 
                 {/* No Results Empty State */}
@@ -139,12 +187,13 @@ export default function DesignList() {
                     <div className="glass rounded-3xl p-12 text-center">
                         <p className="text-white text-xl mb-2">No designs match your filters</p>
                         <p className="text-gray-300 mb-4">
-                            Try adjusting your search or category filter
+                            Try adjusting your search, category, or sort options
                         </p>
                         <button
                             onClick={() => {
                                 setSearchQuery('');
                                 setSelectedCategory('All Categories');
+                                setSortOrder('newest');
                             }}
                             className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all"
                         >
@@ -190,7 +239,7 @@ export default function DesignList() {
                                         {design.title}
                                     </h3>
                                     <p className="text-sm text-gray-300 mb-3">
-                                        by {design.designerName || 'Unknown Designer'}
+                                        by {design.designerName || 'Anonymous Designer'}
                                     </p>
                                     <p className="text-sm text-gray-200 mb-4 line-clamp-2">
                                         {design.description}

@@ -62,7 +62,7 @@ export default function PostDesign() {
                         {/* Design Title */}
                         <div>
                             <label className="block text-white text-sm font-medium mb-2">
-                                Design Title
+                                Design Title <span className="text-red-400">*</span>
                             </label>
                             <input
                                 type="text"
@@ -78,23 +78,22 @@ export default function PostDesign() {
                         {/* Designer Name */}
                         <div>
                             <label className="block text-white text-sm font-medium mb-2">
-                                Designer Name
+                                Designer Name <span className="text-gray-300">(optional)</span>
                             </label>
                             <input
                                 type="text"
                                 name="designerName"
                                 value={formData.designerName}
                                 onChange={handleInputChange}
-                                required
                                 className="w-full px-4 py-3 rounded-xl glass text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-                                placeholder="e.g. Timi Ade, Studio X, Anonymous Designer"
+                                placeholder="Your name or studio (leave empty to be anonymous)"
                             />
                         </div>
 
                         {/* Description */}
                         <div>
                             <label className="block text-white text-sm font-medium mb-2">
-                                Description
+                                Description <span className="text-red-400">*</span>
                                 <span className="text-gray-300 text-xs ml-2">
                                     ({formData.description.length}/200 chars)
                                 </span>
@@ -114,7 +113,7 @@ export default function PostDesign() {
                         {/* Image URL */}
                         <div>
                             <label className="block text-white text-sm font-medium mb-2">
-                                Design Image URL
+                                Design Image URL <span className="text-red-400">*</span>
                             </label>
                             <input
                                 type="url"

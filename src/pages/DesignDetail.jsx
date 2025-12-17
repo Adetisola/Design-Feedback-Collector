@@ -116,7 +116,7 @@ export default function DesignDetail() {
                                     {design.title}
                                 </h1>
                                 <p className="text-lg text-gray-300 mb-4">
-                                    by {design.designerName || 'Unknown Designer'}
+                                    by {design.designerName || 'Anonymous Designer'}
                                 </p>
                                 <p className="text-lg text-gray-200 mb-4">
                                     {design.description}
