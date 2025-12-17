@@ -245,7 +245,7 @@ export default function DesignDetail() {
 
                     {/* Zoom button */}
                     <button
-                        className="absolute bottom-4 right-4 glass p-3 rounded-xl text-white hover:bg-white/20 transition-all z-10"
+                        className="absolute bottom-4 right-4 glass p-3 rounded-xl text-white hover:bg-white/20 transition-all z-10 hidden md:block"
                         onClick={(e) => {
                             e.stopPropagation();
                             setZoom(prev => prev === 80 ? 150 : 80);
