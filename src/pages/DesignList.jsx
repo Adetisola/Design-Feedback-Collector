@@ -229,7 +229,7 @@ export default function DesignList() {
                                     {/* Category Badge */}
                                     {design.category && (
                                         <div className="mb-3">
-                                            <span className="inline-block px-3 py-1 bg-blue-500/20 text-blue-300 text-xs font-medium rounded-full">
+                                            <span className="inline-block px-3 py-1 glass text-white text-xs font-semibold rounded-full uppercase tracking-wider">
                                                 {design.category}
                                             </span>
                                         </div>
