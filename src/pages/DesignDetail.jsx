@@ -262,8 +262,10 @@ export default function DesignDetail() {
                         ref={containerRef}
                         className="relative flex items-center justify-center scrollbar-hide"
                         style={{
-                            width: '80vw',
-                            height: '80vh',
+                            width: window.innerWidth < 768 ? '90vw' : '80vw',
+                            height: window.innerWidth < 768 ? '70vh' : '80vh',
+                            maxWidth: window.innerWidth < 768 ? '90vw' : '80vw',
+                            maxHeight: window.innerWidth < 768 ? '70vh' : '80vh',
                             overflow: zoom === 80 ? 'hidden' : 'auto',
                             cursor: isDragging ? 'grabbing' : (zoom === 80 ? 'default' : 'grab')
                         }}
