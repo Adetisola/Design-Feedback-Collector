@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getDesignById, sortFeedback, calculateDesignAverage } from '../utils/designStorage';
 import FeedbackForm from '../components/FeedbackForm';
@@ -10,6 +10,10 @@ export default function DesignDetail() {
     const [sortOrder, setSortOrder] = useState('newest');
     const [imageOverlayOpen, setImageOverlayOpen] = useState(false);
     const [zoom, setZoom] = useState(80); // Zoom percentage - default 80% to fit in 80% container
+    const [isDragging, setIsDragging] = useState(false);
+    const [isMouseDown, setIsMouseDown] = useState(false);
+    const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+    const containerRef = useRef(null);
 
     const loadDesign = () => {
         const loadedDesign = getDesignById(id);
@@ -19,6 +23,20 @@ export default function DesignDetail() {
     useEffect(() => {
         loadDesign();
     }, [id]);
+
+    // Disable body scroll when overlay is open
+    useEffect(() => {
+        if (imageOverlayOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+
+        // Cleanup on unmount
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [imageOverlayOpen]);
 
     if (!design) {
         return (
@@ -209,7 +227,7 @@ export default function DesignDetail() {
                         onClick={(e) => {
                             e.stopPropagation();
                             setImageOverlayOpen(false);
-                            setZoom(50);
+                            setZoom(80);
                         }}
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -217,14 +235,75 @@ export default function DesignDetail() {
                         </svg>
                     </button>
 
+                    {/* Zoom button */}
+                    <button
+                        className="absolute bottom-4 right-4 glass p-3 rounded-xl text-white hover:bg-white/20 transition-all z-10"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setZoom(prev => prev === 80 ? 150 : 80);
+                        }}
+                        title={zoom === 80 ? 'Zoom In' : 'Zoom Out'}
+                    >
+                        {zoom === 80 ? (
+                            // Zoom In Icon
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                            </svg>
+                        ) : (
+                            // Zoom Out Icon
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM7 10h6" />
+                            </svg>
+                        )}
+                    </button>
+
                     {/* Image Container - Click to zoom */}
                     <div
-                        className="relative flex items-center justify-center overflow-auto"
+                        ref={containerRef}
+                        className="relative flex items-center justify-center scrollbar-hide"
                         style={{
                             width: '80vw',
                             height: '80vh',
-                            overflow: zoom === 80 ? 'hidden' : 'auto'
+                            overflow: zoom === 80 ? 'hidden' : 'auto',
+                            cursor: isDragging ? 'grabbing' : (zoom === 80 ? 'default' : 'grab')
                         }}
+                        onMouseDown={(e) => {
+                            if (zoom === 150) {
+                                setIsMouseDown(true);
+                                setDragStart({
+                                    x: e.clientX + containerRef.current.scrollLeft,
+                                    y: e.clientY + containerRef.current.scrollTop
+                                });
+                            }
+                        }}
+                        onMouseMove={(e) => {
+                            if (isMouseDown && zoom === 150) {
+                                const moveThreshold = 5; // pixels
+                                const deltaX = Math.abs(e.clientX + containerRef.current.scrollLeft - dragStart.x);
+                                const deltaY = Math.abs(e.clientY + containerRef.current.scrollTop - dragStart.y);
+
+                                if (deltaX > moveThreshold || deltaY > moveThreshold) {
+                                    setIsDragging(true);
+                                }
+                            }
+
+                            if (isDragging && zoom === 150) {
+                                e.preventDefault();
+                                const x = dragStart.x - e.clientX;
+                                const y = dragStart.y - e.clientY;
+                                containerRef.current.scrollLeft = x;
+                                containerRef.current.scrollTop = y;
+                            }
+                        }}
+                        onMouseUp={() => {
+                            setIsDragging(false);
+                            setIsMouseDown(false);
+                        }}
+                        onMouseLeave={() => {
+                            setIsDragging(false);
+                            setIsMouseDown(false);
+                        }}
+                        onClick={(e) => e.stopPropagation()}
                     >
                         <img
                             src={design.imageUrl}
@@ -236,13 +315,11 @@ export default function DesignDetail() {
                                 ),
                                 objectFit: 'contain',
                                 transition: 'all 0.3s ease',
-                                cursor: zoom === 80 ? 'zoom-in' : 'zoom-out'
+                                cursor: zoom === 80 ? 'default' : 'grab',
+                                pointerEvents: isDragging ? 'none' : 'auto'
                             }}
                             className="rounded-2xl shadow-2xl"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setZoom(prev => prev === 80 ? 150 : 80);
-                            }}
+                            draggable={false}
                         />
                     </div>
 

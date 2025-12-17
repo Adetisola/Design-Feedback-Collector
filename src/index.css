@@ -28,8 +28,6 @@ input[type="range"].slider::-webkit-slider-thumb {
   border-radius: 50%;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s;
 }
 
 input[type="range"].slider::-webkit-slider-thumb:hover {
@@ -49,4 +47,17 @@ input[type="range"].slider::-moz-range-thumb {
 
 input[type="range"].slider::-moz-range-thumb:hover {
   transform: scale(1.2);
+}
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera */
 }
