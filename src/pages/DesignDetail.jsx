@@ -9,7 +9,7 @@ export default function DesignDetail() {
     const [design, setDesign] = useState(null);
     const [sortOrder, setSortOrder] = useState('newest');
     const [imageOverlayOpen, setImageOverlayOpen] = useState(false);
-    const [zoom, setZoom] = useState(50); // Zoom percentage - default 50% to fit screen
+    const [zoom, setZoom] = useState(80); // Zoom percentage - default 80% to fit in 80% container
 
     const loadDesign = () => {
         const loadedDesign = getDesignById(id);
@@ -200,7 +200,7 @@ export default function DesignDetail() {
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-8"
                     onClick={() => {
                         setImageOverlayOpen(false);
-                        setZoom(50); // Reset to default zoom when closing
+                        setZoom(80); // Reset to default zoom when closing
                     }}
                 >
                     {/* Close button */}
@@ -219,22 +219,29 @@ export default function DesignDetail() {
 
                     {/* Image Container - Click to zoom */}
                     <div
-                        className="relative w-full h-full flex items-center justify-center overflow-auto"
+                        className="relative flex items-center justify-center overflow-auto"
+                        style={{
+                            width: '80vw',
+                            height: '80vh',
+                            overflow: zoom === 80 ? 'hidden' : 'auto'
+                        }}
                     >
                         <img
                             src={design.imageUrl}
                             alt={design.title}
                             style={{
-                                width: zoom === 50 ? '100%' : '200%',
-                                maxHeight: zoom === 50 ? '100%' : 'none',
+                                ...(zoom === 80
+                                    ? { maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }
+                                    : { width: '150%', height: 'auto' }
+                                ),
                                 objectFit: 'contain',
                                 transition: 'all 0.3s ease',
-                                cursor: zoom === 50 ? 'zoom-in' : 'zoom-out'
+                                cursor: zoom === 80 ? 'zoom-in' : 'zoom-out'
                             }}
                             className="rounded-2xl shadow-2xl"
                             onClick={(e) => {
                                 e.stopPropagation();
-                                setZoom(prev => prev === 50 ? 100 : 50);
+                                setZoom(prev => prev === 80 ? 150 : 80);
                             }}
                         />
                     </div>
