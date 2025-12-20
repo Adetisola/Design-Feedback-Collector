@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { getAllDesigns, calculateDesignAverage } from '../utils/designStorage';
 import { CATEGORIES } from '../utils/categories';
 
@@ -201,25 +201,25 @@ export default function DesignList() {
                         </button>
                     </div>
                 ) : (
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="columns-1 md:columns-2 lg:columns-3 gap-6">
                         {filteredDesigns.map((design) => (
                             <Link
                                 key={design.id}
                                 to={`/designs/${design.id}`}
-                                className="glass rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:scale-[1.02] cursor-pointer"
+                                className="glass rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:scale-[1.02] cursor-pointer block mb-6 break-inside-avoid"
                             >
                                 {/* Image */}
-                                <div className="h-48 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center overflow-hidden">
+                                <div className="bg-gradient-to-br from-blue-400 to-purple-500 overflow-hidden rounded-t-2xl">
                                     <img
                                         src={design.imageUrl}
                                         alt={design.title}
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-auto"
                                         onError={(e) => {
                                             e.target.style.display = 'none';
                                             e.target.nextSibling.style.display = 'flex';
                                         }}
                                     />
-                                    <div className="hidden w-full h-full items-center justify-center text-white text-sm">
+                                    <div className="hidden w-full py-24 items-center justify-center text-white text-sm">
                                         Image unavailable
                                     </div>
                                 </div>
@@ -274,6 +274,9 @@ export default function DesignList() {
                     </div>
                 )}
             </div>
+
+            {/* Outlet renders DesignDetail as overlay */}
+            <Outlet />
         </div>
     );
 }
